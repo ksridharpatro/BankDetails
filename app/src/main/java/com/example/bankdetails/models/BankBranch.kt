@@ -1,6 +1,14 @@
 package com.example.bankdetails.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(
+    tableName = "bank_branch"
+)
 data class BankBranch(
+    @PrimaryKey
+    val ifsc: String,
     val address: String,
     val bank: String,
     val bankCode: String,
@@ -9,7 +17,6 @@ data class BankBranch(
     val city: String,
     val contact: String,
     val district: String,
-    val ifsc: String,
     val imps: Boolean,
     val micr: String,
     val neft: Boolean,
