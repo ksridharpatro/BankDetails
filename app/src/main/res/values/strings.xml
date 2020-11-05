@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BankDetails</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_ifsc">IFSC</string>
+    <string name="text_search">Search</string>
 </resources>
