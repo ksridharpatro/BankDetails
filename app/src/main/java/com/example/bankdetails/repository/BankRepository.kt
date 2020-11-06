@@ -35,7 +35,9 @@ class BankRepository(
             bankBranch?.let {
                 db.getBankDao().saveBankBranch(it)
                 _bankBranchResource.postValue(Resource.success(it))
+                return
             }
+            _bankBranchResource.postValue(Resource.error("Not found"))
         } catch (e: IOException) {
             _bankBranchResource.postValue(Resource.error("Error while fetching"))
         }
