@@ -29,12 +29,6 @@ class SharedPreferenceUtil private constructor(private val application: Applicat
         return user
     }
 
-    fun clearUser() {
-        val preferences: SharedPreferences =
-            application.getSharedPreferences(PREF_FILE_NAME_USER_DETAILS, Context.MODE_PRIVATE)
-        preferences.edit().clear().apply()
-    }
-
     companion object {
         private var instance: SharedPreferenceUtil? = null
         private val LOCK = Any()

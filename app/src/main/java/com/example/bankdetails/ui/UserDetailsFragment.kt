@@ -48,17 +48,17 @@ class UserDetailsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             imageUriString = data?.data.toString()
-            ivProfilePhoto.setImageURI(data?.data);
+            ivProfilePhoto.setImageURI(data?.data)
         }
     }
 
     private fun getUserFromUI(): User? {
         val firstName = etFirstName.text.toString()
         val lastName = etLastName.text.toString()
-        if (firstName.isBlank() || lastName.isBlank()) {
-            return null
+        return if (firstName.isBlank() || lastName.isBlank()) {
+            null
         } else {
-            return User(firstName, lastName, imageUriString)
+            User(firstName, lastName, imageUriString)
         }
     }
 

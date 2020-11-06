@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bankdetails.BankDetailsApplication
 import com.example.bankdetails.R
@@ -60,7 +59,7 @@ class BankDetailsFragment : Fragment() {
 
     private fun onSearchClick(ifsc: String) {
         val bankBranchResource = viewModel.getBankBranchResource(ifsc)
-        bankBranchResource.observe(viewLifecycleOwner, Observer {
+        bankBranchResource.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBar.visibility = View.GONE

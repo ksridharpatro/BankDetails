@@ -10,8 +10,8 @@ import java.io.IOException
 import java.util.concurrent.ThreadPoolExecutor
 
 class BankRepository(
-    val db: BankDatabase,
-    val executor: ThreadPoolExecutor,
+    private val db: BankDatabase,
+    private val executor: ThreadPoolExecutor,
 ) {
 
     private val _bankBranchResource: MutableLiveData<Resource<BankBranch>> = MutableLiveData()
