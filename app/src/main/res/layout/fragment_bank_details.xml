@@ -36,6 +36,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:autofillHints="IFSC"
+        android:digits="abcdefghijklmnopqrstuvwxyz1234567890"
         android:ems="10"
         android:hint="@string/text_ifsc"
         android:inputType="text"
