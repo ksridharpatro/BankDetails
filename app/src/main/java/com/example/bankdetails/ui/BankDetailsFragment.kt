@@ -10,13 +10,24 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.bankdetails.BankDetailsApplication
 import com.example.bankdetails.R
 import com.example.bankdetails.db.BankDatabase
+import com.example.bankdetails.models.User
 import com.example.bankdetails.repository.BankRepository
 import com.example.bankdetails.util.Status
 import kotlinx.android.synthetic.main.fragment_bank_details.*
 
+private const val ARG_USER = "user"
+
 class BankDetailsFragment : Fragment() {
 
     private lateinit var viewModel: BankViewModel
+    private var user: User? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            user = it.getSerializable(ARG_USER) as User
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +44,15 @@ class BankDetailsFragment : Fragment() {
         val bankRepository = BankRepository(BankDatabase(requireContext()), executor)
         val viewModelProviderFactory = BankViewModelProviderFactory(bankRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(BankViewModel::class.java)
+        showUserDetails()
         btnSearch.setOnClickListener {
             onSearchClick(etIfsc.text.toString())
+        }
+    }
+
+    private fun showUserDetails() {
+        user?.let {
+            tvName.text = "${it.firstName}  ${it.lastName}"
         }
     }
 
@@ -59,6 +77,10 @@ class BankDetailsFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = BankDetailsFragment()
+        fun newInstance(user: User) = BankDetailsFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(ARG_USER, user)
+            }
+        }
     }
 }

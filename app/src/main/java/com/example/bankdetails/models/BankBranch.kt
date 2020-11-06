@@ -10,5 +10,7 @@ import com.google.gson.annotations.SerializedName
 data class BankBranch(
     @PrimaryKey
     @SerializedName("IFSC")
-    val ifsc: String
+    val ifsc: String,
+    @SerializedName("BRANCH")
+    val branch: String
 )
