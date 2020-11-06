@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.bankdetails.R
 import com.example.bankdetails.models.User
@@ -25,17 +26,26 @@ class UserDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         btnSubmit.setOnClickListener {
             callback?.run {
-                onUserDetailsSubmitClick(
-                    User(
-                        etFirstName.text.toString(),
-                        etLastName.text.toString()
-                    )
-                )
+                getUserFromUI()?.let {
+                    onUserDetailsSubmitClick(it)
+                    return@run
+                }
+                Toast.makeText(requireContext(), "Enter details", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    fun setOnHeadlineSelectedListener(callback: InteractionListener) {
+    private fun getUserFromUI(): User? {
+        val firstName = etFirstName.text.toString()
+        val lastName = etLastName.text.toString()
+        if (firstName.isBlank() || lastName.isBlank()) {
+            return null
+        } else {
+            return User(firstName, lastName)
+        }
+    }
+
+    fun setInteractionListener(callback: InteractionListener) {
         this.callback = callback
     }
 

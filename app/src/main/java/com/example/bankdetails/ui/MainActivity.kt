@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), UserDetailsFragment.InteractionListene
 
     override fun onAttachFragment(fragment: Fragment) {
         if (fragment is UserDetailsFragment) {
-            fragment.setOnHeadlineSelectedListener(this)
+            fragment.setInteractionListener(this)
         }
     }
 
