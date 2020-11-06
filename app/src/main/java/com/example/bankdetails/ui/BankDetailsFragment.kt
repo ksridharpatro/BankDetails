@@ -1,5 +1,6 @@
 package com.example.bankdetails.ui
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,13 +48,15 @@ class BankDetailsFragment : Fragment() {
         btnSearch.setOnClickListener {
             onSearchClick(etIfsc.text.toString())
         }
+
+
     }
 
     private fun showUserDetails() {
         user?.let {
             tvName.text = "${it.firstName}  ${it.lastName}"
-            //val imageUri = Uri.parse(it.imageUriString)
-            //ivProfilePhoto.setImageURI(imageUri)
+            val bitmap = BitmapFactory.decodeFile(it.imagePath)
+            ivProfilePhoto.setImageBitmap(bitmap)
         }
     }
 

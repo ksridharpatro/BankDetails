@@ -2,7 +2,11 @@ package com.example.bankdetails.ui
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.database.Cursor
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +16,12 @@ import com.example.bankdetails.R
 import com.example.bankdetails.models.User
 import kotlinx.android.synthetic.main.fragment_user_details.*
 
+
 class UserDetailsFragment : Fragment() {
 
     private var callback: InteractionListener? = null
     private val pickImage = 1
-    private var imageUriString: String? = null
+    private var imagePath: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,17 +43,28 @@ class UserDetailsFragment : Fragment() {
             }
         }
         ivProfilePhoto.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), pickImage)
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, pickImage)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK && requestCode == pickImage) {
-            imageUriString = data?.data.toString()
-            ivProfilePhoto.setImageURI(data?.data)
+            val selectedImageUri: Uri? = data?.data
+            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+            selectedImageUri?.let {
+                val cursor: Cursor? = context?.contentResolver?.query(
+                    it, filePathColumn, null, null, null
+                )
+                cursor?.run {
+                    moveToFirst()
+                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                    imagePath = cursor.getString(columnIndex)
+                    close()
+                    val bitmap = BitmapFactory.decodeFile(imagePath)
+                    ivProfilePhoto.setImageBitmap(bitmap)
+                }
+            }
         }
     }
 
@@ -58,7 +74,7 @@ class UserDetailsFragment : Fragment() {
         return if (firstName.isBlank() || lastName.isBlank()) {
             null
         } else {
-            User(firstName, lastName, imageUriString)
+            User(firstName, lastName, imagePath)
         }
     }
 
