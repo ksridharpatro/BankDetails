@@ -1,5 +1,6 @@
 package com.example.bankdetails.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,8 @@ class BankDetailsFragment : Fragment() {
     private fun showUserDetails() {
         user?.let {
             tvName.text = "${it.firstName}  ${it.lastName}"
+            val imageUri = Uri.parse(it.imageUriString)
+            ivProfilePhoto.setImageURI(imageUri)
         }
     }
 
